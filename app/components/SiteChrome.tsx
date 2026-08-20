@@ -27,12 +27,10 @@ export function SiteChrome({
   darkHeader?: boolean;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [loaded, setLoaded] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const timer = window.setTimeout(() => setLoaded(true), reduced ? 50 : 980);
     const parallaxElements = Array.from(
       document.querySelectorAll<HTMLElement>("[data-parallax]"),
     );
@@ -77,7 +75,6 @@ export function SiteChrome({
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
     return () => {
-      window.clearTimeout(timer);
       window.clearTimeout(revealTimer);
       observer.disconnect();
       window.removeEventListener("scroll", update);
@@ -149,29 +146,6 @@ export function SiteChrome({
 
   return (
     <>
-      <div className={`site-loader ${loaded ? "is-loaded" : ""}`} aria-hidden="true">
-        <div className="loader-shell">
-          <div className="loader-topline">
-            <span>PS / Nova Scotia</span>
-            <span>Private real estate advisory</span>
-          </div>
-          <div className="loader-stage">
-            <div className="loader-monogram">
-              <img src="/images/pavneet-logo-nav.webp" alt="" />
-            </div>
-            <div className="loader-name">
-              <strong>Pavneet Singh</strong>
-              <span>Clarity for every move.</span>
-            </div>
-          </div>
-          <div className="loader-progress">
-            <span>Preparing your experience</span>
-            <div className="loader-line"><i /></div>
-            <span>Nova Scotia</span>
-          </div>
-        </div>
-      </div>
-
       <div className="scroll-progress" aria-hidden="true" />
       <div className="cursor-dot" aria-hidden="true" />
       <div className="cursor-ring" aria-hidden="true" data-label="" />
